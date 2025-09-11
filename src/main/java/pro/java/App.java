@@ -40,35 +40,34 @@ public class App {
         if (array.length < 3) {
             throw new IllegalArgumentException("array length less than 3");
         }
-        int[] arrayCopy = Arrays.copyOf(array, array.length);
-        Arrays.sort(arrayCopy);
-        System.out.println("Третье максимальное число в массиве: " + arrayCopy[arrayCopy.length - 3]);
+        Arrays.stream(array)
+                .boxed()
+                .sorted(Comparator.reverseOrder())
+                .skip(2)
+                .findFirst()
+                .ifPresent(x -> System.out.println("Третье максимальное число в массиве: " + x));
     }
 
     private static void getUniqueMax3rdNUmber(int[] array) {
         if (array.length < 3) {
             throw new IllegalArgumentException("array length less than 3");
         }
-        int[] arrayCopy = Arrays.copyOf(array, array.length);
-        TreeSet<Integer> set = new TreeSet<>();
-        Arrays.stream(arrayCopy).forEach(set::add);
-        if (set.size() < 3) {
-            throw new IllegalArgumentException("unique value count in array less than 3");
-        }
-        Iterator<Integer> integerIterator = set.descendingIterator();
-        integerIterator.next();
-        integerIterator.next();
-        Integer next = integerIterator.next();
-        System.out.println("Третье максимальное число уникальное в массиве: " + next);
+        Arrays.stream(array)
+                .distinct()
+                .boxed()
+                .sorted(Comparator.reverseOrder())
+                .skip(2)
+                .findFirst()
+                .ifPresent(x -> System.out.println("Третье уникальное максимальное число в массиве: " + x));
     }
 
     private static void avgAgeOfEngineers(Collection<Employee> employees) {
-        employees.stream()
+        Double avgValue = employees.stream()
                 .filter(employee -> employee.position() == Position.ENGINEER)
                 .map(Employee::age)
-                .mapToInt(Integer::intValue).average()
-                .ifPresentOrElse(age -> System.out.println("Средний возраст инженеров: " + age),
-                        () -> System.out.println("В компании нет инженеров, средний возраст их 0"));
+                .collect(Collectors.averagingInt(Integer::intValue));
+        System.out.println("Средний возраст инженеров: " + avgValue);
+
     }
 
     private static void getMaximumLengthWord(Collection<String> words) {
@@ -80,14 +79,15 @@ public class App {
     }
 
     private static void getWordRateDictionary(String textLine) {
-        Map<String, Integer> collect = Arrays.stream(textLine.toLowerCase().split("\\s+")).collect(Collectors.toMap(Function.identity(), s -> 1, Integer::sum));
+        Map<String, Integer> collect = Arrays.stream(textLine.toLowerCase().split("\\s+"))
+                .collect(Collectors.toMap(Function.identity(), s -> 1, Integer::sum));
         System.out.println("Частота слов в строке" + collect);
     }
 
     private static void sorted(String textLine) {
-
-        Map<String, Integer> collect = Arrays.stream(textLine.toLowerCase().split("\\s+")).collect(Collectors.toMap(Function.identity(), s -> 1, Integer::sum));
-        collect.entrySet().stream()
+        Arrays.stream(textLine.toLowerCase().split("\\s+"))
+                .collect(Collectors.toMap(Function.identity(), s -> 1, Integer::sum))
+                .entrySet().stream()
                 .sorted(Map.Entry.<String, Integer>comparingByValue().thenComparing(Map.Entry.comparingByKey()))
                 .forEach(entry -> System.out.println(entry.getKey() + " : " + entry.getValue()));
     }
@@ -98,8 +98,5 @@ public class App {
                 .max(Comparator.comparingInt(String::length))
                 .ifPresentOrElse(word -> System.out.println("Самое длинное слово: " + word),
                         () -> System.out.println("В списке нет слов"));
-
-
     }
-
 }

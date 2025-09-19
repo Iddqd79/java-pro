@@ -27,18 +27,23 @@ public class CustomThreadPool implements Executor {
         isRunning = false;
     }
 
+    private Runnable getTask() {
+        synchronized (workQueue) {
+            return workQueue.poll();
+        }
+    }
+
     private final class TaskWorker implements Runnable {
 
         @Override
         public void run() {
             while (isRunning) {
-                synchronized (workQueue) {
-                    Runnable nextTask = workQueue.poll();
-                    if (nextTask != null) {
-                        nextTask.run();
-                    }
+                Runnable nextTask = getTask();
+                if (nextTask != null) {
+                    nextTask.run();
                 }
             }
         }
     }
 }
+

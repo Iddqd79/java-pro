@@ -6,7 +6,7 @@ package pro.java;
  */
 public class App {
     public static void main(String[] args) {
-        pro.java.CustomThreadPool customThreadPool = new pro.java.CustomThreadPool(3);
+        pro.java.CustomThreadPool customThreadPool = new CustomThreadPool(3);
 
         for (int i = 0; i < 12; i++) {
 

@@ -10,11 +10,11 @@ public class CustomThreadPool {
     private final int poolSize;
     private final LinkedList<Runnable> taskQueue;
     private final WorkerThread[] workerThreads;
+    //private final AtomicBoolean isShutdown;
     private volatile boolean acceptNewTasks;
 
     /**
      * Конструктор пула потоков
-     *
      * @param poolSize количество рабочих потоков
      */
     public CustomThreadPool(int poolSize) {
@@ -25,6 +25,7 @@ public class CustomThreadPool {
         this.poolSize = poolSize;
         this.taskQueue = new LinkedList<>();
         this.workerThreads = new WorkerThread[poolSize];
+        //  this.isShutdown = new AtomicBoolean(false);
         this.acceptNewTasks = true;
 
         // Инициализация и запуск рабочих потоков
@@ -43,7 +44,6 @@ public class CustomThreadPool {
 
     /**
      * Добавление задачи в очередь на выполнение
-     *
      * @param task задача для выполнения
      * @throws IllegalStateException если пул был остановлен
      */
@@ -85,15 +85,6 @@ public class CustomThreadPool {
                 worker.join();
             }
         }
-    }
-
-    /**
-     * Проверка, был ли инициирован shutdown
-     *
-     * @return true если shutdown был вызван
-     */
-    public boolean isShutdown() {
-        return !acceptNewTasks;
     }
 
 
@@ -151,5 +142,6 @@ public class CustomThreadPool {
                 }
             }
         }
+
     }
 }

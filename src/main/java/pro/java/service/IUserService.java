@@ -8,7 +8,7 @@ public interface IUserService {
     User create(Long id, String name);
 
 
-    User upadate(Long id, String name);
+    User update(Long id, String name);
 
     void delete(Long id);
 

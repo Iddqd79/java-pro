@@ -25,12 +25,16 @@ public class App {
         Collection<User> all = userService.findAll();
         System.out.println(all);
 
-        userService.upadate(1L, "Ivan");
+        User ivan = userService.update(1L, "Ivan");
+        System.out.println(ivan);
+
+        User anna = userService.findById(2L);
+        System.out.println(anna);
 
         all = userService.findAll();
         System.out.println(all);
 
-        userService.delete(2L);
+        userService.delete(3L);
 
         all = userService.findAll();
         System.out.println(all);

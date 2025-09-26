@@ -23,7 +23,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public User upadate(Long id, String name) {
+    public User update(Long id, String name) {
         return userRepository.update(id, name);
     }
 

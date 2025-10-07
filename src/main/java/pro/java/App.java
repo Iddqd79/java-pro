@@ -1,27 +1,31 @@
 package pro.java;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.ComponentScan;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import pro.java.dto.User;
 import pro.java.service.impl.UserService;
 
 import java.util.Collection;
 
 /**
- * Home task-4
+ * Home task-5
  *
  */
-@ComponentScan
-public class App {
+@SpringBootApplication
+@RequiredArgsConstructor
+public class App implements CommandLineRunner {
+    private final UserService userService;
 
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(App.class);
-        UserService userService = context.getBean(UserService.class);
 
-        User use1 = userService.create(1L, "Ivam");
-        User use2 = userService.create(2L, "Anna");
-        User use3 = userService.create(3L, "Oleg");
+        SpringApplication.run(App.class);
 
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
         Collection<User> all = userService.findAll();
         System.out.println(all);
 
@@ -38,7 +42,5 @@ public class App {
 
         all = userService.findAll();
         System.out.println(all);
-
-
     }
 }

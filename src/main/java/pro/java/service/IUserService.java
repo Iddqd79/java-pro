@@ -1,19 +1,23 @@
 package pro.java.service;
 
-import pro.java.dto.User;
+import pro.java.dto.ProductDTO;
+import pro.java.dto.UserDTO;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface IUserService {
-    User create(Long id, String name);
+    UserDTO create(UserDTO user);
 
+    void delete(UserDTO user);
 
-    User update(Long id, String name);
+    Optional<UserDTO> findById(Long id);
 
-    void delete(Long id);
+    Collection<UserDTO> findAll();
 
-    User findById(Long id);
+    void addProduct(ProductDTO product);
 
-    Collection<User> findAll();
+    void removeProduct(ProductDTO product);
+
 
 }

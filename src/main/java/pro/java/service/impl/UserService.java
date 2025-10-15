@@ -13,6 +13,7 @@ import pro.java.repository.UserRepository;
 import pro.java.service.IUserService;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -59,6 +60,15 @@ public class UserService implements IUserService {
     public void removeProduct(ProductDTO dto) {
         Product product = productMapper.convertToEntity(dto);
         productRepository.delete(product);
+    }
+
+    @Override
+    public Collection<ProductDTO> getAllProductsByUserId(Long id) {
+        return userRepository.findById(id)
+                .map(user -> user.getProducts().stream()
+                        .map(productMapper::convertToDTO)
+                        .toList())
+                .orElse(Collections.emptyList());
     }
 
 }

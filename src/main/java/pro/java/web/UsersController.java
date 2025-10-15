@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import pro.java.dto.ProductDTO;
 import pro.java.dto.UserDTO;
 import pro.java.service.IUserService;
 
@@ -42,5 +43,11 @@ public class UsersController {
     public Collection<UserDTO> getAll() {
         return userService.findAll();
     }
+
+    @GetMapping("/{id}/products")
+    public Collection<ProductDTO> getAllProducts(@PathVariable Long id) {
+        return userService.getAllProductsByUserId(id);
+    }
+
 
 }

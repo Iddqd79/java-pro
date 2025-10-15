@@ -19,5 +19,6 @@ public interface IUserService {
 
     void removeProduct(ProductDTO product);
 
+    Collection<ProductDTO> getAllProductsByUserId(Long id);
 
 }

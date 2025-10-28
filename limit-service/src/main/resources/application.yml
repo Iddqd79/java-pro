@@ -1,0 +1,27 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: limit-service
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximumPoolSize: 10
+    url: jdbc:postgresql://localhost:5436/java-pro?currentSchema=public&useUnicode=true&characterEncoding=UTF-8
+    username: postgres
+    password: postgres
+
+  jpa:
+    #    database-platform: ru.vtb.omni.hibernateorm.helper.domain.custom.PostgreSQL10JsonbDialect
+    database: postgresql
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    default-schema: public
+
+limit.value: 100000.00

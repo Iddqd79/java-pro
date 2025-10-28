@@ -9,6 +9,7 @@ import pro.java.dto.OperationDTO;
 import pro.java.entity.Limit;
 import pro.java.entity.Operation;
 import pro.java.enums.OperationStatus;
+import pro.java.exceptions.ProcessingException;
 import pro.java.mapper.LimitMapper;
 import pro.java.mapper.OperationMapper;
 import pro.java.repository.LimitRepository;
@@ -44,15 +45,19 @@ public class LimitService implements ILimitService {
     public void hold(Long userId, BigDecimal amount) {
         Limit limit = limitRepository.findById(userId).orElseThrow(() -> new RuntimeException("Limit for user is absent"));
         if (limit.getLimit().compareTo(amount) < 0) {
-            throw new RuntimeException("Today's limit is below zero, please wait tomorrow");
+            throw new ProcessingException("Today's limit is below zero, please wait tomorrow");
         }
         OperationDTO operationDTO = new OperationDTO(null, amount, OperationStatus.HOLD, userId);
         operationRepository.save(operationMapper.convertToEntity(operationDTO));
     }
 
     @Override
+    @Transactional
     public void decline(Long operationId) {
         Operation operation = operationRepository.findById(operationId).orElseThrow(() -> new RuntimeException("Operation is absent"));
+        if (operation.getStatus() != OperationStatus.HOLD) {
+            throw new ProcessingException("Operation already processed");
+        }
         operation.setStatus(OperationStatus.DECCLINE);
         operationRepository.save(operation);
     }
@@ -61,7 +66,11 @@ public class LimitService implements ILimitService {
     @Transactional
     public void accept(Long operationId) {
         Operation operation = operationRepository.findById(operationId).orElseThrow(() -> new RuntimeException("Operation is absent"));
+        if (operation.getStatus() != OperationStatus.HOLD) {
+            throw new ProcessingException("Operation already processed");
+        }
         Limit limit = limitRepository.findById(operation.getLimit().getUserId()).orElseThrow(() -> new RuntimeException("Limit for user is absent"));
+
         if (operation.getAmount().compareTo(limit.getLimit()) > 0) {
             operation.setStatus(OperationStatus.DECCLINE);
         } else {
@@ -73,6 +82,7 @@ public class LimitService implements ILimitService {
     }
 
     @Override
+    @Transactional
     public void resetAllLimits() {
         limitRepository.resetAll(limit);
     }

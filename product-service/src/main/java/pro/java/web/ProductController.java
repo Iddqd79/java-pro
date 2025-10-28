@@ -43,4 +43,9 @@ public class ProductController {
         return productService.findAll();
     }
 
+    @PatchMapping("/reset")
+    public void resetLimit() {
+        productService.reset();
+    }
+
 }

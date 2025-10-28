@@ -14,4 +14,6 @@ public interface IProductService {
 
     Collection<ProductDTO> findAll();
 
+    void reset();
+
 }

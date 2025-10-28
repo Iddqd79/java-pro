@@ -1,0 +1,4 @@
+ALTER TABLE service_product
+    ADD COLUMN "limit" DECIMAL(10, 2) NOT NULL DEFAULT 100000.00;
+
+

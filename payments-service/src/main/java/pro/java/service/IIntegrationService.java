@@ -10,4 +10,6 @@ public interface IIntegrationService {
     List<ProductDTO> getAllProducts();
 
     ProductDTO getProduct(Long productId);
+
+    void resetLimit();
 }

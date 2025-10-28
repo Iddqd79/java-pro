@@ -6,6 +6,9 @@ server:
 spring:
   application:
     name: payment-service
+limit.service:
+  enabled: true
+  cron: "0 0 0 * * *"
 
 integration:
   clients:

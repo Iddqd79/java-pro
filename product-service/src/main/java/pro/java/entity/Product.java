@@ -24,6 +24,9 @@ public class Product {
     @Column(name = "balance")
     private BigDecimal balance;
 
+    @Column(name = "limit")
+    private BigDecimal limit;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     private ProductType type;
@@ -31,4 +34,6 @@ public class Product {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
+
+
 }

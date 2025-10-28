@@ -1,0 +1,16 @@
+server:
+
+  port: 8082
+  servlet:
+    context-path: payments-service
+spring:
+  application:
+    name: payment-service
+
+integration:
+  clients:
+    payments-executor-client:
+      url: http:\\localhost:8083\product-service\api\v1
+      connect-timeout: 5s
+      read-timeout: 10s
+

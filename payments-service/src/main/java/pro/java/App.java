@@ -1,15 +1,15 @@
 package pro.java;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
- * Home task-6
+ * Home task-8
  *
  */
 @SpringBootApplication
-@RequiredArgsConstructor
+@EnableFeignClients
 public class App {
 
     public static void main(String[] args) {

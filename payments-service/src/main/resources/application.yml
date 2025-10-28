@@ -1,8 +1,11 @@
 server:
+
   port: 8082
+  servlet:
+    context-path: payments-service
 spring:
   application:
-    name: java-pro-task-5
+    name: payment-service
   datasource:
     driver-class-name: org.postgresql.Driver
     hikari:
@@ -12,7 +15,7 @@ spring:
     password: postgres
 
   jpa:
-    #    database-platform: ru.vtb.omni.hibernateorm.helper.domain.custom.PostgreSQL10JsonbDialect
+
     database: postgresql
     hibernate:
       ddl-auto: none
@@ -23,3 +26,5 @@ spring:
     enabled: true
     locations: classpath:db/migration
     default-schema: public
+integration:
+  product-service: http:\\localhost:8083\product-service\
